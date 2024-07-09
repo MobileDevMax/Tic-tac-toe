@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(TicTacToeApp());
+
+class TicTacToeApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Tic tac toe',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: TicTacToe(),
+    );
+  }
+}
+
+class TicTacToe extends StatefulWidget {
+  @override
+  _TicTacToeState createState() => _TicTacToeState();
+}
+
+class _TicTacToeState extends State<TicTacToe> {
+  List<String> board = List.filled(9, '');
+  bool xTurn = true;
+
+  void _onTap(int index) {
+    if (board[index] != '') return;
+    setState(() {
+      board[index] = xTurn ? 'X' : 'O';
+      xTurn = !xTurn;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tic tac toe'),
+      ),
+      body: GridView.builder(
+        itemCount: 9,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () => _onTap(index),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+              ),
+              child: Center(
+                child: Text(
+                  board[index],
+                  style: TextStyle(fontSize: 400),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
